@@ -52,6 +52,7 @@
     "classlist.js": "1.1.20150312",
     "core-js": "2.5.1",
     "font-awesome": "4.7.0",
+    "gulp": "^3.9.1",
     "intl": "1.2.5",
     "ionicons": "2.0.1",
     "leaflet": "1.2.0",

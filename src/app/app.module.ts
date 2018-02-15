@@ -6,7 +6,7 @@
 import { APP_BASE_HREF } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { CoreModule } from './@core/core.module';
 
@@ -15,9 +15,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { ThemeModule } from './@theme/theme.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TotimComponent } from './totim/totim.component';
+import { PointComponent } from './totim/component/point.component';
+// import { PixelListComponent } from './totim/component/pixel-list.component.2';
 
 @NgModule({
-  declarations: [AppComponent, TotimComponent],
+  declarations: [AppComponent, TotimComponent, PointComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -32,6 +34,8 @@ import { TotimComponent } from './totim/totim.component';
   providers: [
     { provide: APP_BASE_HREF, useValue: '/' },
   ],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
+  
 })
 export class AppModule {
 }
