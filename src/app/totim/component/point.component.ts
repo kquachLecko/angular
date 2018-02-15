@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Http } from '@angular/http';
 import { Totim } from '../model/totim';
-import { Matrix } from '../model/matrix';
-import { Pixel } from '../model/pixel';
 import { MatrixService } from '../service/matrix.service';
 import { Point } from '@agm/core/services/google-maps-types';
 import { Point_Matrix_Lecko } from '../model/point';
