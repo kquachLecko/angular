@@ -17,7 +17,7 @@ export class TotimComponent implements OnInit {
   }
 
   ngOnInit() {
-    
+          
   }
 
 

@@ -9,7 +9,7 @@ import { Point_Matrix_Lecko } from '../model/point';
   selector: 'point',
   template: `
   <div *ngFor="let p of points" >
-  [{{p.coord_line}} : {{p.coord_column}} ] : {{p.colourR}} - {{p.colourB}} - {{p.colourB}} - {{p.state}} 
+  [{{p.coord_line}} : {{p.coord_column}} ] : {{p.colourR}} - {{p.colourG}} - {{p.colourB}} - {{p.state}} 
   </div>
 `,
   // - {{this.point.coord_column}} - {{this.point.colourR}} - {{this.point.colourB}} - {{this.point.colourB}} - {{this.point.state}}
@@ -17,12 +17,18 @@ import { Point_Matrix_Lecko } from '../model/point';
 export class PointComponent implements OnInit {
   // column : Pixel = { colourG: 1, colourR : 1, colourB : 1, state : 1 };
   point: Point_Matrix_Lecko
-  points : Point_Matrix_Lecko[] = []
+  points: Point_Matrix_Lecko[] = []
+  pointsColor = []
+  point_test = new Point_Matrix_Lecko(187, 52, 19, 1, 0, 1);
+
   constructor(private matrixService: MatrixService) {
+  
   }
+
   ngOnInit() {
     console.log("Point Component")
     this.getMatrix();
+    // this.getPointSameColor(this.point_test);
   }
 
   getPoint(coord_line, coord_column): void {
@@ -33,9 +39,9 @@ export class PointComponent implements OnInit {
         console.log(result);
         // console.log(result['line_' + numero_line]['column_' + numero_column]['colourR']);
         this.point = new Point_Matrix_Lecko(
-          result['line_' + coord_line]['column_' + coord_column]['colourB'],
-          result['line_' + coord_line]['column_' + coord_column]['colourG'],
           result['line_' + coord_line]['column_' + coord_column]['colourR'],
+          result['line_' + coord_line]['column_' + coord_column]['colourG'],
+          result['line_' + coord_line]['column_' + coord_column]['colourB'],
           result['line_' + coord_line]['column_' + coord_column]['state'],
           coord_line,
           coord_column
@@ -43,18 +49,20 @@ export class PointComponent implements OnInit {
         console.log(this.point);
       })
   }
+
   getMatrix(): void {
     console.log('Get Matrix')
-    let line = 32;
-    let column = 63;
+    const line = 32;
+    const column = 63;
     this.matrixService.getApi()
       .subscribe(result => {
+        console.log(result);
         for (var i = 0; i < line; i++) {
           for (var j = 0; j < column; j++) {
             let p = new Point_Matrix_Lecko(
-              result['line_' + i]['column_' + j]['colourB'],
-              result['line_' + i]['column_' + j]['colourG'],
               result['line_' + i]['column_' + j]['colourR'],
+              result['line_' + i]['column_' + j]['colourG'],
+              result['line_' + i]['column_' + j]['colourB'],
               result['line_' + i]['column_' + j]['state'],
               i,
               j
@@ -65,4 +73,5 @@ export class PointComponent implements OnInit {
         }
       });
   }
+  
 }
