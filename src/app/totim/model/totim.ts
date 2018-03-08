@@ -6,5 +6,8 @@ export class Totim {
         public from: string,
         public client: string,
         public description: string,
-        public token: string) { }
+        public token: string,
+        public modification_date: string,
+        public setup_date:string,
+    ) { }
 }
