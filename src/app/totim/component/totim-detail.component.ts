@@ -6,16 +6,16 @@ import { TotimService } from '../service/totim.service';
 @Component({
   selector: 'totim-detail',
   template: `
-  <div *ngIf='totim != {}'>
-  Id : {{totim.id}} <br/>
-  Colour : {{totim.colour}} <br/>
-  Data : {{totim.data}} <br/>
-  From : {{totim.from}} <br/>
-  Client : {{totim.client}} <br/>
-  Description : {{totim.description}}  <br/>
-  token : {{totim.token}} <br/>
-  modification date : {{totim.modification_date}} <br/>
-  setup date : {{totim.setup_date}}   <br/>  
+  <div>
+  Id : {{totim?.id}} <br/>
+  Colour : {{totim?.colour}} <br/>
+  Data : {{totim?.data}} <br/>
+  From : {{totim?.from}} <br/>
+  Client : {{totim?.client}} <br/>
+  Description : {{totim?.description}}  <br/>
+  token : {{totim?.token}} <br/>
+  modification date : {{totim?.modification_date}} <br/>
+  setup date : {{totim?.setup_date}}   <br/>  
   </div>
 `,
 })
