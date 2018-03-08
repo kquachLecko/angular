@@ -9,11 +9,11 @@ import {
   NbResetPasswordComponent,
 } from '@nebular/auth';
 import { TotimComponent } from './totim/totim.component';
+import { NgxLoginComponent } from './@theme/components/auth/login/login.component';
 // import { PixelListComponent } from './totim/component/pixel-list.component.2';
 
 const routes: Routes = [
   { path: 'pages', loadChildren: 'app/pages/pages.module#PagesModule' },
-  
   {
     path: 'auth',
     component: NbAuthComponent,
@@ -24,7 +24,7 @@ const routes: Routes = [
       },
       {
         path: 'login',
-        component: NbLoginComponent,
+        component: NgxLoginComponent,
       },
       {
         path: 'register',
@@ -45,6 +45,10 @@ const routes: Routes = [
     ],
   },
   { path: 'totim', component: TotimComponent },
+  {
+    path: 'login',
+    component: NgxLoginComponent,
+  },
   // { path: 'pixel', component: PixelListComponent },
   { path: '', redirectTo: 'pages', pathMatch: 'full' },
   { path: '**', redirectTo: 'pages' },
