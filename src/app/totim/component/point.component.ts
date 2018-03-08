@@ -46,7 +46,7 @@ export class PointComponent implements OnInit {
           coord_line,
           coord_column
         );
-        console.log(this.point);
+        // console.log(this.point);
       })
   }
 
@@ -56,7 +56,7 @@ export class PointComponent implements OnInit {
     const column = 63;
     this.matrixService.getApi()
       .subscribe(result => {
-        console.log(result);
+        // console.log(result);
         for (var i = 0; i < line; i++) {
           for (var j = 0; j < column; j++) {
             let p = new Point_Matrix_Lecko(

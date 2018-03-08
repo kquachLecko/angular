@@ -12,7 +12,7 @@ export class MatrixService {
 
   }
   public getApi() {
-    console.log(this.http.get(this.matrixURL));
+    // console.log(this.http.get(this.matrixURL));
     // return this.http.get(this.matrixURL);
     return this.http.get(this.matrixURL)
     // this.http.get("http://localhost:8080/Totim/getFullMatrix?id_totim=totim_1")
@@ -44,5 +44,9 @@ export class MatrixService {
       });
       console.log(pointsColor);
       return pointsColor;
+  }
+  getDiffMatrixcolor(){
+    console.log("GetDiffColor");
+    
   }
 }

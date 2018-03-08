@@ -18,12 +18,13 @@ import { TotimComponent } from './totim/totim.component';
 import { PointComponent } from './totim/component/point.component';
 import { ChartComponent } from './totim/component/chart.component';
 import { ChartModule } from 'angular-highcharts';
+import { TotimDetailComponent } from './totim/component/totim-detail.component';
 
 
 // import { PixelListComponent } from './totim/component/pixel-list.component.2';
 
 @NgModule({
-  declarations: [AppComponent, TotimComponent, PointComponent, ChartComponent],
+  declarations: [AppComponent, TotimComponent, PointComponent, ChartComponent, TotimDetailComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
