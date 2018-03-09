@@ -6,8 +6,8 @@ import { Point_Matrix_Lecko } from '../model/point';
 @Injectable()
 export class MatrixService {
 
-  private matrixURL = "http://localhost:8080/Totim/getFullMatrix?id_totim=totim_1"
-
+  private matrixURL = "http://localhost:8080/Totim/getFullMatrix?id_totim=totim_2"
+  
   constructor(protected http: HttpClient) {
 
   }
@@ -18,7 +18,8 @@ export class MatrixService {
     // this.http.get("http://localhost:8080/Totim/getFullMatrix?id_totim=totim_1")
     // .map(res => res.json())
   }
-  getPointSameColor(pointA : Point_Matrix_Lecko) {
+  
+  getPointSameColor(pointA: Point_Matrix_Lecko) {
     console.log("getPointSameColor")
     const line = 32;
     const column = 63;
@@ -35,18 +36,14 @@ export class MatrixService {
               i,
               j
             );
-            if(pointA.sameColor(p)){
+            if (pointA.sameColor(p)) {
               pointsColor.push([p.coord_line, p.coord_column]);
             }
-            
+
           }
         }
       });
-      console.log(pointsColor);
-      return pointsColor;
-  }
-  getDiffMatrixcolor(){
-    console.log("GetDiffColor");
-    
+    console.log(pointsColor);
+    return pointsColor;
   }
 }

@@ -4,6 +4,7 @@ import { PointComponent } from './point.component';
 import { Point_Matrix_Lecko } from '../model/point';
 import { MatrixService } from '../service/matrix.service';
 import { Point } from '@agm/core/services/google-maps-types';
+import { rgb } from 'd3-color';
 
 @Component({
     selector: 'chart',
@@ -13,11 +14,12 @@ import { Point } from '@agm/core/services/google-maps-types';
   `
 })
 export class ChartComponent implements OnInit {
-
+    series = new Array();
     chart: Chart
     pointsColor: Array<number[]> = []
     pointsNoir: Array<number[]> = []
     point_test = new Point_Matrix_Lecko(2, 1, 0, 1, 0, 1);
+    
     constructor(private matrixService: MatrixService) {
 
     }
@@ -25,107 +27,72 @@ export class ChartComponent implements OnInit {
     ngOnInit() {
         this.init();
     }
+
     init() {
         console.log('Initialise Chart');
-        let color = []
-        let black = []
-        const line = 32;
-        const column = 63;
-        this.matrixService.getApi()
-            .subscribe(result => {
-                console.log(result)
-                for (var i = 0; i <= line; i++) {
-                    for (var j = 0; j <= column; j++) {
-
-                        let p = new Point_Matrix_Lecko(
-                            result['line_' + i]['column_' + j]['colourR'],
-                            result['line_' + i]['column_' + j]['colourG'],
-                            result['line_' + i]['column_' + j]['colourB'],
-                            result['line_' + i]['column_' + j]['state'],
-                            i,
-                            j
-                        );
-                        if (this.point_test.sameColor(p)) {
-                            color.push([p.coord_column, p.coord_line]);
-                        }
-                        else {
-                            black.push([p.coord_column, p.coord_line]);
-                        }
-                    }
-                }
-                console.log(black)
-                this.initChart(color, black);
-            });
+        this.getSeries();
+        //this.initChart();
     }
-    initChart(color, black) {
+    initChart() {
+        //let series = this.getSeries();
         let chart = new Chart({
             chart: {
                 type: 'scatter',
                 zoomType: 'xy',
+                inverted:true,
             },
             title: {
                 text: 'Matrix'
             },
-
+            
             xAxis: {
                 title: {
                     text: 'x'
                 },
                 min: 0,
-                max: 70,
+                max: 40,
                 startOnTick: true,
                 endOnTick: true,
                 showLastLabel: true,
                 minPadding: 0,
-                maxPadding: 0,
+                maxPadding: 1,
             },
             yAxis: {
                 title: {
                     text: 'y'
                 },
                 min: 0,
-                max: 40,
+                max: 70,
+                minPadding: 0,
+                maxPadding: 1,
             },
             plotOptions: {
                 scatter: {
                     marker: {
-                        radius: 5,
-                        states: {
-                            hover: {
-                                enabled: true,
-                                lineColor: 'rgb(100,100,100)'
-                            }
-                        }
+                        radius: 4,
+                        symbol: 'square'
                     },
-                    states: {
-                        hover: {
-                            marker: {
-                                enabled: false
-                            }
-                        }
-                    },
-                    tooltip: {
-                        pointFormat: '{point.x}, {point.y}'
-                    },
-
                 }
             },
             series: [{
                 color: 'rgba(2, 1, 0, 1)',
-                data: color,
+                data: [0,1],
             }, {
-                color: 'rgba(0, 0, 0, 1)',
-                data: black
+                color: 'rgba(255, 79, 79, 1)',
+                data: [5,5]
             }
             ]
         });
+        //chart.options.series= [{color: 'rgb(60,60,60)' , data: [[1,0]]}];
+        // console.log(chart.options.series);
+        chart.options.series=this.series;
         this.chart = chart;
     }
     addPoint(point) {
         if (this.chart) {
             this.chart.addPoint(point, 0);
         } else {
-            alert('init chart, first!');
+            alert('Init chart, first!');
         }
     }
 
@@ -153,7 +120,54 @@ export class ChartComponent implements OnInit {
                         }
                     }
                 }
-                console.log(this.pointsColor)
+                //console.log(this.pointsColor)
             });
+    }
+    getSeries() {
+        const line = 32;
+        const column = 63;
+        console.log("GetDiffColor");
+        let series = [{ r: 0, g: 0, b: 0, data: [] }]
+        return this.matrixService.getApi()
+            .subscribe(result => {
+                //console.log(result);
+                //console.log(result['line_11']['column_47']['colourR']);
+                for (var i = 0; i < line; i++) {
+                    for (var j = 0; j < column; j++) {
+                        let find: boolean = false;
+                        for (var k = 0; k < series.length; k++) {
+                            if (
+                                result['line_' + i]['column_' + j]['colourR'] == series[k]['r'] &&
+                                result['line_' + i]['column_' + j]['colourG'] == series[k]['g'] &&
+                                result['line_' + i]['column_' + j]['colourB'] == series[k]['b']
+                            ) {
+                                series[k]['data'].push([i, j]);
+                                find = true;
+                            }
+                            else if (k == series.length - 1 && find == false) {
+                                //console.log("New serie");
+                                series.push({
+                                    r: result['line_' + i]['column_' + j]['colourR'],
+                                    g: result['line_' + i]['column_' + j]['colourG'],
+                                    b: result['line_' + i]['column_' + j]['colourB'],
+                                    data: [[i, j]]
+                                })
+                            }
+                        }
+                    }
+                }
+                console.log(series);
+                this.series = series;
+                this.transformSerieforChart(series);
+                this.initChart();
+            });
+    }
+    transformSerieforChart(series){
+        let transform_series = new Array();
+        for(var i=0; i<series.length;i++){
+            transform_series.push({color:'rgba('+series[i]['r']+','+series[i]['g']+','+series[i]['b']+',1)', data : series[i]['data']})
+        }
+        console.log(transform_series);
+        this.series = transform_series;
     }
 }

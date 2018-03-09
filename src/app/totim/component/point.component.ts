@@ -27,7 +27,8 @@ export class PointComponent implements OnInit {
 
   ngOnInit() {
     console.log("Point Component")
-    this.getMatrix();
+    //this.getMatrix();
+    // this.matrixService.getDiffColorInMatrix();
     // this.getPointSameColor(this.point_test);
   }
 
@@ -36,7 +37,7 @@ export class PointComponent implements OnInit {
     let point
     this.matrixService.getApi()
       .subscribe(result => {
-        console.log(result);
+        //console.log(result);
         // console.log(result['line_' + numero_line]['column_' + numero_column]['colourR']);
         this.point = new Point_Matrix_Lecko(
           result['line_' + coord_line]['column_' + coord_column]['colourR'],
